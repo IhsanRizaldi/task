@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,10 +27,23 @@ Route::prefix('login')->group(function () {
     Route::post('/login', [AuthController::class,'login'])->name('login.store');
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::prefix('logout')->group(function () {
+    Route::post('/logout', [AuthController::class,'logout'])->name('logout');
+});
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::prefix('/task')->group(function () {
+        Route::get('/', [TaskController::class,'index'])->name('task.index');
+        Route::get('/create', [TaskController::class,'create'])->name('task.create');
+        Route::post('/store', [TaskController::class,'store'])->name('task.store');
+        Route::get('/edit/{id}', [TaskController::class,'edit'])->name('task.edit');
+        Route::post('/update/{id}', [TaskController::class,'update'])->name('task.update');
+        Route::get('/destroy/{id}', [TaskController::class,'destroy'])->name('task.destroy');
+    })->middleware('auth');
+});
+
+Route::group(['middleware' => 'auth'], function () {
     Route::prefix('/')->group(function () {
         Route::get('/', [HomeController::class,'index'])->name('home.index');
     })->middleware('auth');
-
 });

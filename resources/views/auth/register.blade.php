@@ -52,6 +52,9 @@
                             <button type="submit" class="btn btn-primary">Register</button>
                         </div>
                     </form>
+                    <div class="mb-3">
+                        <p>Sudah Punya Akun ? <a href="{{ route('login') }}">Login</a></p>
+                    </div>
                 </div>
             </div>
         </div>

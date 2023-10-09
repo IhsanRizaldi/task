@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Task;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -11,7 +13,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $task = Task::all();
+        return view('task.index',compact('task'));
     }
 
     /**
@@ -19,7 +22,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('task.create');
     }
 
     /**
@@ -27,7 +30,17 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+           'name' => 'required|string',
+           'description' => 'required|string'
+        ]);
+
+        $data = new Task;
+        $data->user_id = Auth::user()->id;
+        $data->name = $request->name;
+        $data->description = $request->description;
+        $data->save();
+        return redirect()->route('task.index')->with('sukses','Task Added Successful');
     }
 
     /**
@@ -43,7 +56,8 @@ class TaskController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $task = Task::find($id);
+        return view('task.edit',compact('task'));
     }
 
     /**
@@ -51,7 +65,17 @@ class TaskController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string'
+         ]);
+
+         $data = Task::find($id);
+         $data->user_id = Auth::user()->id;
+         $data->name = $request->name;
+         $data->description = $request->description;
+         $data->save();
+         return redirect()->route('task.index')->with('sukses','Task Updated Successful');
     }
 
     /**
@@ -59,6 +83,8 @@ class TaskController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $task = Task::find($id);
+        $task->delete();
+        return redirect()->back()->with('sukses','Task Deleted Successful');
     }
 }

@@ -8,17 +8,13 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>The Task</title>
   </head>
   <body>
-    @if ($message = Session::get('sukses'))
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        {{ $message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-    
-    <h1>Hello, world!</h1>
+
+    @include('master.navbar')
+
+    @yield('main')
 
     <!-- Optional JavaScript; choose one of the two! -->
 
