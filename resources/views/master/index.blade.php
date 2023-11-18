@@ -11,10 +11,13 @@
     <title>The Task</title>
   </head>
   <body>
-
     @include('master.navbar')
+    
+    <div class="container">
+        @yield('main')
+    </div>
 
-    @yield('main')
+  @include('master.footer')
 
     <!-- Optional JavaScript; choose one of the two! -->
 

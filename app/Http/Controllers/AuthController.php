@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,26 +15,27 @@ class AuthController extends Controller
      * Display a listing of the resource.
      */
 
-    public function regindex()
+    public function register()
     {
         return view('auth.register');
     }
 
-    public function store(RegisterRequest $request)
+    public function register_store(RegisterRequest $request)
     {
         $register = new User();
         $register->fill($request->validated());
         $register->save();
 
-        return redirect()->route('login')->with('sukses', 'Register Berhasil');
+        Alert::success('Success', 'Anda Telah Berhasil Melakukan Logout');
+        return redirect()->route('login');
     }
 
-    public function logindex()
+    public function login()
     {
         return view('auth.login');
     }
 
-    public function login(Request $request){
+    public function login_store(Request $request){
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -41,7 +43,8 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('home.index')->with('sukses','Login Berhasil');
+            Alert::success('Success', 'Anda Telah Berhasil Melakukan Login');
+            return redirect()->route('home.index');
         }
 
         return back()->withErrors([
@@ -56,6 +59,8 @@ class AuthController extends Controller
         request()->session()->invalidate();
 
         request()->session()->regenerateToken();
+
+        Alert::success('Success', 'Anda Telah Berhasil Melakukan Logout');
 
         return redirect('/login');
     }

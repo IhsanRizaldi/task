@@ -17,33 +17,32 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('register')->group(function () {
-    Route::get('/', [AuthController::class,'regindex'])->name('register.index');
-    Route::post('/store', [AuthController::class,'store'])->name('register.store');
-});
+    Route::get('/', [AuthController::class,'register'])->name('register.index');
+    Route::post('/store', [AuthController::class,'register_store'])->name('register.store');
+})->middleware('guest');
 
 
 Route::prefix('login')->group(function () {
-    Route::get('/', [AuthController::class,'logindex'])->name('login');
-    Route::post('/login', [AuthController::class,'login'])->name('login.store');
-});
+    Route::get('/', [AuthController::class,'login'])->name('login');
+    Route::post('/login', [AuthController::class,'login_store'])->name('login.store');
+})->middleware('guest');
 
 Route::prefix('logout')->group(function () {
     Route::post('/logout', [AuthController::class,'logout'])->name('logout');
-});
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::prefix('/task')->group(function () {
-        Route::get('/', [TaskController::class,'index'])->name('task.index');
-        Route::get('/create', [TaskController::class,'create'])->name('task.create');
-        Route::post('/store', [TaskController::class,'store'])->name('task.store');
-        Route::get('/edit/{id}', [TaskController::class,'edit'])->name('task.edit');
-        Route::post('/update/{id}', [TaskController::class,'update'])->name('task.update');
-        Route::get('/destroy/{id}', [TaskController::class,'destroy'])->name('task.destroy');
-    })->middleware('auth');
-});
+})->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::prefix('/')->group(function () {
         Route::get('/', [HomeController::class,'index'])->name('home.index');
     })->middleware('auth');
 });
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::prefix('/task')->group(function () {
+        Route::post('/store', [TaskController::class,'store'])->name('task.store');
+        Route::post('/update/{id}', [TaskController::class,'update'])->name('task.update');
+        Route::get('/destroy/{id}', [TaskController::class,'destroy'])->name('task.destroy');
+    })->middleware('auth');
+});
+
+

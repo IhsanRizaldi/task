@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task = Task::all();
-        return view('task.index',compact('task'));
+        //
     }
 
     /**
@@ -39,8 +39,10 @@ class TaskController extends Controller
         $data->user_id = Auth::user()->id;
         $data->name = $request->name;
         $data->description = $request->description;
+        $data->is_done = false;
         $data->save();
-        return redirect()->route('task.index')->with('sukses','Task Added Successful');
+        Alert::success('Success', 'Anda Telah Berhasil Menambahkan Task');
+        return redirect()->route('home.index');
     }
 
     /**
@@ -74,8 +76,10 @@ class TaskController extends Controller
          $data->user_id = Auth::user()->id;
          $data->name = $request->name;
          $data->description = $request->description;
+         $data->is_done = $request->is_done;
          $data->save();
-         return redirect()->route('task.index')->with('sukses','Task Updated Successful');
+         Alert::success('Success', 'Anda Telah Berhasil Mengubah Task');
+         return redirect()->route('task.index');
     }
 
     /**
@@ -85,6 +89,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $task->delete();
-        return redirect()->back()->with('sukses','Task Deleted Successful');
+        Alert::success('Success', 'Anda Telah Berhasil Menghapus Task');
+        return redirect()->back();
     }
 }

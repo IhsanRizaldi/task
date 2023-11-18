@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->string('name');
             $table->string('description');
+            $table->boolean('is_done');
             $table->timestamps();
         });
     }

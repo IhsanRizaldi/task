@@ -8,47 +8,40 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Login Task</title>
+    <title>Login || Task</title>
   </head>
-  <body>
-
-    <div class="row mt-5 align-items-center justify-content-center">
-        <div class="col-md-4 mt-5">
-
-            @if ($message = Session::get('sukses'))
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{ $message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-
-            <div class="card">
-                <div class="card-header text-center">
-                    <h3>Login User</h3>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('login.store') }}" method="POST">
-                        @csrf
+  <body class="bg-primary">
+    @include('sweetalert::alert')
+    <div class="container">
+        <div class="row mt-5 align-items-center justify-content-center">
+            <div class="col-md-5 mt-5">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>Login User</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('login.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="">Email</label>
+                                <input type="email" name="email" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="">Password</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
                         <div class="mb-3">
-                            <label for="">Email</label>
-                            <input type="email" name="email" class="form-control">
+                            <p>Belum Punya Akun ? <a href="{{ route('register.index') }}">Register</a></p>
                         </div>
-                        <div class="mb-3">
-                            <label for="">Password</label>
-                            <input type="password" name="password" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                        </div>
-                    </form>
-                    <div class="mb-3">
-                        <p>Belum Punya Akun ? <a href="{{ route('register.index') }}">Login</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- Optional JavaScript; choose one of the two! -->
 
