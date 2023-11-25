@@ -40,7 +40,8 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::prefix('/task')->group(function () {
         Route::post('/store', [TaskController::class,'store'])->name('task.store');
-        Route::post('/update/{id}', [TaskController::class,'update'])->name('task.update');
+        Route::post('/update', [TaskController::class,'update'])->name('task.update');
+        Route::get('/update_status/{id}', [TaskController::class,'update_status'])->name('task.update_status');
         Route::get('/destroy/{id}', [TaskController::class,'destroy'])->name('task.destroy');
     })->middleware('auth');
 });

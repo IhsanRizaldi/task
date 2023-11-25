@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <form action="{{ route('register.store') }}" method="POST">
                             @csrf
-                            <div class="mb-3">
+                            <div class="mb-1">
                                 <label for="">Name</label>
                                 <input type="text" name="name" class="form-control">
                             </div>
@@ -30,7 +30,7 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 </div>
                             @enderror
-                            <div class="mb-3">
+                            <div class="mb-1">
                                 <label for="">Email</label>
                                 <input type="email" name="email" class="form-control">
                             </div>
@@ -39,7 +39,7 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 </div>
                             @enderror
-                            <div class="mb-3">
+                            <div class="mb-1">
                                 <label for="">Password</label>
                                 <input type="password" name="password" class="form-control">
                             </div>
@@ -48,11 +48,20 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 </div>
                             @enderror
-                            <div class="mb-3">
+                            <div class="mb-1">
+                                <label for="">Confirm Password</label>
+                                <input type="password" name="password_confirmation" class="form-control">
+                            </div>
+                            @error('password_confirmation')
+                                <div class="mt-3">
+                                    <p class="text-danger">{{ $message }}</p>
+                                </div>
+                            @enderror
+                            <div class="mb-1">
                                 <button type="submit" class="btn btn-primary">Register</button>
                             </div>
                         </form>
-                        <div class="mb-3">
+                        <div class="mb-1">
                             <p>Sudah Punya Akun ? <a href="{{ route('login') }}">Login</a></p>
                         </div>
                     </div>

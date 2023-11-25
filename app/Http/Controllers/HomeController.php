@@ -10,10 +10,20 @@ class HomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $task = Task::all();
-        return view('home.index',compact('task'));
+        $complete = Task::where('is_done', true)->count();
+        $incomplete = Task::where('is_done', false)->count();
+
+        $search = $request->input('search');
+
+        if ($search) {
+            $task = Task::where('name', 'LIKE', '%' . $search . '%')->paginate(3);
+        } else {
+            $task = Task::paginate(3);
+        }
+
+    return view('home.index', compact('task','complete','incomplete'));
     }
 
     /**

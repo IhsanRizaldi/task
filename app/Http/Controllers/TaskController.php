@@ -22,7 +22,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('task.create');
+        //
     }
 
     /**
@@ -56,30 +56,42 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function update_status(Request $request, string $id)
     {
-        $task = Task::find($id);
-        return view('task.edit',compact('task'));
+        $task = Task::findOrFail($id);
+        if ($task->is_done == false) {
+            $task->is_done = true;
+            $task->save();
+        } else {
+            $task->is_done = false;
+            $task->save();
+        }
+        
+
+        Alert::success('Success', 'Anda Telah Berhasil Mengubah Status Task');
+        return redirect()->route('home.index');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'description' => 'required|string'
-         ]);
+        $id = $request->input('task_id');
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $is_done = $request->input('is_done');
 
-         $data = Task::find($id);
-         $data->user_id = Auth::user()->id;
-         $data->name = $request->name;
-         $data->description = $request->description;
-         $data->is_done = $request->is_done;
-         $data->save();
-         Alert::success('Success', 'Anda Telah Berhasil Mengubah Task');
-         return redirect()->route('task.index');
+        $task = Task::findOrFail($id);
+
+        $task->name = $name;
+        $task->description = $description;
+        $task->is_done = $is_done;
+
+        $task->save();
+
+        Alert::success('Success', 'Anda Telah Berhasil Mengubah Task');
+        return redirect()->route('home.index');
     }
 
     /**

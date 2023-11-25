@@ -26,7 +26,7 @@ class AuthController extends Controller
         $register->fill($request->validated());
         $register->save();
 
-        Alert::success('Success', 'Anda Telah Berhasil Melakukan Logout');
+        Alert::success('Success', 'Anda Telah Berhasil Melakukan Register');
         return redirect()->route('login');
     }
 
